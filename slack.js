@@ -8,3 +8,18 @@ app.use(express.static(__dirname + '/public'));
 
 const expressServer = app.listen(9000);
 const io = socketio(expressServer)
+
+// note that io.on === io.of('/').on ;)
+io.on('connection', (socket) => {
+
+    // build an array of namespaces with img and endpoint to send back
+    let nsData = namespaces.map((ns) => {
+        return {
+            img: ns.img,
+            endpoint: ns.endpoint
+        }
+    })
+    // We need to use socket, not IO this is
+    // because we want it to go to just this client
+    socket.emit('nsList', nsData) // send nsData back to the client  
+})
