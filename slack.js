@@ -23,3 +23,12 @@ io.on('connection', (socket) => {
     // because we want it to go to just this client
     socket.emit('nsList', nsData) // send nsData back to the client  
 })
+
+// loop through each ns and listen for a connection
+namespaces.forEach((namespace) => {
+    io.of(namespace.endpoint).on('connection', socket => {
+
+        socket.emit('nsRoomLoad', namespace.rooms)
+        let username = socket.handshake.query.username;
+    })
+})
