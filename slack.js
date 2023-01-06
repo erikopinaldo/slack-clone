@@ -30,5 +30,23 @@ namespaces.forEach((namespace) => {
 
         socket.emit('nsRoomLoad', namespace.rooms)
         let username = socket.handshake.query.username;
+        socket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
+
+            const roomToLeave = Object.keys(socket.rooms)[1]
+            // leave old room
+            socket.leave(roomToLeave)
+            updateUsersInRoom(namespace, roomToLeave)
+
+            // join the socket to the new room
+            socket.join(roomToJoin)
+            updateUsersInRoom(namespace, roomToJoin)
+
+            // grab the room
+            const nsRoom = namespace.rooms.find((room) => {
+                return room.roomTitle === roomToJoin;
+            })
+            // send out the room history
+            socket.emit("historyCatchUp", nsRoom.history)
+        })
     })
 })
