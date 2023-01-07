@@ -50,3 +50,10 @@ namespaces.forEach((namespace) => {
         })
     })
 })
+
+function updateUsersInRoom(namespace, roomToJoin) {
+    // send back the number of users in this room to ALL sockets connected to this room
+    io.of(namespace.endpoint).in(roomToJoin).clients((error, clients) => {
+        io.of(namespace.endpoint).in(roomToJoin).emit('updateMembers', clients.length)
+    })
+}
