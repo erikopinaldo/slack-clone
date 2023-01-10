@@ -35,11 +35,11 @@ namespaces.forEach((namespace) => {
             const roomToLeave = Object.keys(socket.rooms)[1]
             // leave old room
             socket.leave(roomToLeave)
-            updateUsersInRoom(namespace, roomToLeave)
+            // updateUsersInRoom(namespace, roomToLeave)
 
             // join the socket to the new room
             socket.join(roomToJoin)
-            updateUsersInRoom(namespace, roomToJoin)
+            // updateUsersInRoom(namespace, roomToJoin)
 
             // grab the room
             const nsRoom = namespace.rooms.find((room) => {
@@ -51,9 +51,10 @@ namespaces.forEach((namespace) => {
     })
 })
 
-function updateUsersInRoom(namespace, roomToJoin) {
-    // send back the number of users in this room to ALL sockets connected to this room
-    io.of(namespace.endpoint).in(roomToJoin).clients((error, clients) => {
-        io.of(namespace.endpoint).in(roomToJoin).emit('updateMembers', clients.length)
-    })
-}
+// This is outdated now -- find another way to emit user counts to all clients
+// function updateUsersInRoom(namespace, roomToJoin) {
+//     // send back the number of users in this room to ALL sockets connected to this room
+//     io.of(namespace.endpoint).in(roomToJoin).clients((error, clients) => {
+//         io.of(namespace.endpoint).in(roomToJoin).emit('updateMembers', clients.length)
+//     })
+// }
