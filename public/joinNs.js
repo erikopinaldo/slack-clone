@@ -1,9 +1,10 @@
-
 function joinNs(endpoint) {
     // close connection to namespace when no longer in use
     if (nsSocket) {
         // check to see if nsSocket is a socket
         nsSocket.close()
+        // remove event listener before it's added again
+        document.querySelector("#user-input").removeEventListener('submit', formSubmission)
     }
     nsSocket = io(`http://localhost:9000${endpoint}`)
     nsSocket.on('nsRoomLoad', (nsRooms) => {
@@ -23,7 +24,7 @@ function joinNs(endpoint) {
         let roomNodes = document.getElementsByClassName('room');
         Array.from(roomNodes).forEach(elem => {
             elem.addEventListener('click', (e) => {
-                console.log("Someone Clicked on ", e.target.innerText)
+
                 joinRoom(e.target.innerText)
             })
         })
@@ -33,4 +34,10 @@ function joinNs(endpoint) {
         const topRoomName = topRoom.innerText;
         joinRoom(topRoomName)
     })
+    document.querySelector('.message-form').addEventListener('submit', formSubmission)
+}
+function formSubmission(event) {
+    event.preventDefault();
+    const newMessage = document.querySelector('#user-message').value;
+    nsSocket.emit('newMessageToServer', { text: newMessage })
 }
