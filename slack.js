@@ -32,7 +32,7 @@ namespaces.forEach((namespace) => {
         let username = socket.handshake.query.username;
         socket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
 
-            const roomToLeave = Object.keys(socket.rooms)[1]
+            const roomToLeave = [...socket.rooms][1]
             // leave old room
             socket.leave(roomToLeave)
             // updateUsersInRoom(namespace, roomToLeave)
@@ -58,9 +58,8 @@ namespaces.forEach((namespace) => {
 
             // the user will be in the 2nd room in the object list this is because
             // the socket always joins it's own room on connection
-            const roomTitle = Object.keys(socket.rooms)[1]; //get the keys
+            const roomTitle = [...socket.rooms][1]; //get the keys
             // find the room object for this room
-            console.log(Object.keys(socket.rooms))
             const nsRoom = namespace.rooms.find((room) => {
                 return room.roomTitle === roomTitle;
             })
