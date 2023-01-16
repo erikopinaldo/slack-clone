@@ -24,7 +24,6 @@ function joinNs(endpoint) {
         let roomNodes = document.getElementsByClassName('room');
         Array.from(roomNodes).forEach(elem => {
             elem.addEventListener('click', (e) => {
-
                 joinRoom(e.target.innerText)
             })
         })
@@ -35,9 +34,28 @@ function joinNs(endpoint) {
         joinRoom(topRoomName)
     })
     document.querySelector('.message-form').addEventListener('submit', formSubmission)
+    nsSocket.on('messageToClients', (msg) => {
+        const newMsg = buildHTML(msg)
+        document.querySelector('#messages').innerHTML += newMsg
+    })
 }
 function formSubmission(event) {
     event.preventDefault();
     const newMessage = document.querySelector('#user-message').value;
     nsSocket.emit('newMessageToServer', { text: newMessage })
+}
+function buildHTML(msg) {
+    const convertedDate = new Date(msg.time).toLocaleString();
+    const newHTML = `
+    <li>
+        <div class="user-image">
+            <img src="${msg.avatar}" />
+        </div>
+        <div class="user-message">
+            <div class="user-name-time">${msg.username} <span>${convertedDate}</span></div>
+            <div class="message-text">${msg.text}</div>
+        </div>
+    </li>
+    `
+    return newHTML;
 }
