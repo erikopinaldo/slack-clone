@@ -13,6 +13,7 @@ const io = socketio(expressServer)
 io.on('connection', (socket) => {
 
     // build an array of namespaces with img and endpoint to send back
+    // with this namespace map, every connection gets the same list of namespaces 
     let nsData = namespaces.map((ns) => {
         return {
             img: ns.img,
