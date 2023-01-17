@@ -7,6 +7,8 @@ const app = express();
 app.use(express.static(__dirname + '/public'));
 
 const expressServer = app.listen(9000);
+
+// any time we listen to events with io, we are listening for events coming from all clients
 const io = socketio(expressServer)
 
 // note that io.on === io.of('/').on ;)
