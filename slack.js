@@ -32,10 +32,13 @@ namespaces.forEach((namespace) => {
     io.of(namespace.endpoint).on('connection', socket => {
 
         socket.emit('nsRoomLoad', namespace.rooms)
+
         let username = socket.handshake.query.username;
+
         socket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
 
             const roomToLeave = [...socket.rooms][1]
+            
             // leave old room
             socket.leave(roomToLeave)
             // updateUsersInRoom(namespace, roomToLeave)
