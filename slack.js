@@ -33,6 +33,7 @@ namespaces.forEach((namespace) => {
 
         socket.emit('nsRoomLoad', namespace.rooms)
 
+        // username is added to the fullMsg object
         let username = socket.handshake.query.username;
 
         socket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
