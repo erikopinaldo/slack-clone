@@ -55,6 +55,7 @@ namespaces.forEach((namespace) => {
             // send out the room history
             socket.emit("historyCatchUp", nsRoom.history)
         })
+
         socket.on('newMessageToServer', (msg) => {
             const fullMsg = {
                 text: msg.text,
@@ -66,15 +67,16 @@ namespaces.forEach((namespace) => {
             // the user will be in the 2nd room in the object list this is because
             // the socket always joins it's own room on connection
             const roomTitle = [...socket.rooms][1]; //get the keys
+            
             // find the room object for this room
             const nsRoom = namespace.rooms.find((room) => {
                 return room.roomTitle === roomTitle;
             })
+            
             nsRoom.addMessage(fullMsg)
 
             // Send this message to All the sockets that are in the room
             // that this socket is in
-
             io.of(namespace.endpoint).to(roomTitle).emit('messageToClients', fullMsg)
         })
     })
