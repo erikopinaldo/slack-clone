@@ -4,6 +4,7 @@ const namespaces = require("./data/namespaces")
 
 const app = express();
 const mongoose = require('mongoose');
+const connectDB = require('./config/database');
 
 app.use(express.static(__dirname + '/public'));
 
