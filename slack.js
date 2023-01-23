@@ -3,6 +3,7 @@ const socketio = require('socket.io');
 const namespaces = require("./data/namespaces")
 
 const app = express();
+const mongoose = require('mongoose');
 
 app.use(express.static(__dirname + '/public'));
 
