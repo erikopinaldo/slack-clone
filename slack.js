@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express');
 const socketio = require('socket.io');
 const namespaces = require("./data/namespaces")
