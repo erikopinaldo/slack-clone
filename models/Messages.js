@@ -16,6 +16,10 @@ const MessagesSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.String,
         unique: true,
     },
+    room: {
+        type: mongoose.Schema.Types.String,
+        unique: true,
+    },
 })
 
 
