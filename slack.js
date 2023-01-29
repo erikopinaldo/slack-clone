@@ -63,16 +63,16 @@ namespaces.forEach((namespace) => {
         })
 
         socket.on('newMessageToServer', (msg) => {
+            // the user will be in the 2nd room in the object list this is because
+            // the socket always joins it's own room on connection
+            const roomTitle = [...socket.rooms][1]; //get the keys
+            
             const fullMsg = {
                 text: msg.text,
                 time: Date.now(),
                 username: username,
                 avatar: 'https://via.placeholder.com/30'
             }
-
-            // the user will be in the 2nd room in the object list this is because
-            // the socket always joins it's own room on connection
-            const roomTitle = [...socket.rooms][1]; //get the keys
             
             // find the room object for this room
             const nsRoom = namespace.rooms.find((room) => {
