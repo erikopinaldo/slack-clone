@@ -14,10 +14,12 @@ const MessagesSchema = new mongoose.Schema({
     },
     username: {
         type: mongoose.Schema.Types.String,
+        required: true,
         unique: true,
     },
     room: {
         type: mongoose.Schema.Types.String,
+        required: true,
         unique: true,
     },
 })
