@@ -71,6 +71,7 @@ namespaces.forEach((namespace) => {
                 text: msg.text,
                 time: Date.now(),
                 username: username,
+                room: roomTitle,
                 avatar: 'https://via.placeholder.com/30'
             }
             
