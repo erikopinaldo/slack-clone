@@ -1,8 +1,16 @@
+require('dotenv').config()
+
 const express = require('express');
 const socketio = require('socket.io');
-const namespaces = require("./data/namespaces")
+const models = require('./models');
+const namespaces = require("./data/namespaces");
+const debug = require('debug')('chat')
 
 const app = express();
+const mongoose = require('mongoose');
+const connectDB = require('./config/database');
+
+connectDB();
 
 app.use(express.static(__dirname + '/public'));
 
@@ -36,6 +44,12 @@ namespaces.forEach((namespace) => {
         // username is added to the fullMsg object
         let username = socket.handshake.query.username;
 
+        if (!username) {
+            username = "Anonymous"
+        }
+
+        console.log(username)
+
         socket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
 
             const roomToLeave = [...socket.rooms][1]
@@ -57,16 +71,17 @@ namespaces.forEach((namespace) => {
         })
 
         socket.on('newMessageToServer', (msg) => {
-            const fullMsg = {
-                text: msg.text,
-                time: Date.now(),
-                username: username,
-                avatar: 'https://via.placeholder.com/30'
-            }
-
             // the user will be in the 2nd room in the object list this is because
             // the socket always joins it's own room on connection
             const roomTitle = [...socket.rooms][1]; //get the keys
+            
+            const fullMsg = {
+                text: msg.text,
+                time: Date.now(),
+                user: username,
+                room: roomTitle,
+                avatar: 'https://via.placeholder.com/30'
+            }
             
             // find the room object for this room
             const nsRoom = namespace.rooms.find((room) => {
@@ -78,6 +93,39 @@ namespaces.forEach((namespace) => {
             // Send this message to All the sockets that are in the room
             // that this socket is in
             io.of(namespace.endpoint).to(roomTitle).emit('messageToClients', fullMsg)
+
+            try {
+                console.log(fullMsg)
+                console.log('user: ' + fullMsg.user)
+                models.Messages.create(
+                    {
+                        text: msg.text,
+                        time: Date.now(),
+                        user: fullMsg.user,
+                        room: roomTitle,
+                    })
+                    .then(console.log('Message has been added!'))
+            } catch (err) {
+                console.log(err)
+            }
+
+            // const newMessage = new models.Messages()
+
+            // newMessage.user = username
+            // newMessage.text = msg.text
+            // newMessage.room = roomTitle
+
+            // console.log(newMessage)
+
+            // newMessage
+            //     .save()
+            //     .then(() =>
+            //         debug(
+            //             `${username} sent message ${msg.text
+            //             } to channel ${roomTitle}`
+            //         )
+            //     )
+            //     .then(null, error => debug(`error sending message: ${error}`))
         })
     })
 })
