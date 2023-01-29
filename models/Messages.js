@@ -3,25 +3,28 @@ const mongoose = require('mongoose')
 const MessagesSchema = new mongoose.Schema({
     text: {
         type: mongoose.Schema.Types.String,
-        unique: true,
         required: true,
     },
     time:
     {
         type: mongoose.Schema.Types.Date,
-        unique: true,
-        required: true,
+        default: Date.now,
     },
-    username: {
+    user: {
         type: mongoose.Schema.Types.String,
         required: true,
-        unique: true,
     },
     room: {
         type: mongoose.Schema.Types.String,
         required: true,
-        unique: true,
     },
+})
+
+MessagesSchema.pre('save', function (next) {
+    this.room = this.room.toLowerCase()
+    this.user = this.user.toLowerCase()
+
+    next()
 })
 
 
