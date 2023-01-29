@@ -2,10 +2,10 @@ require('dotenv').config()
 
 const express = require('express');
 const socketio = require('socket.io');
-const namespaces = require("./data/namespaces")
+const models = require('./models');
+const namespaces = require("./data/namespaces");
 
 const app = express();
-const models = require('./models')
 const mongoose = require('mongoose');
 const connectDB = require('./config/database');
 
