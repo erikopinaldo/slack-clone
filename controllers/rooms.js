@@ -1,4 +1,3 @@
-const cloudinary = require("../middleware/cloudinary");
 const Rooms = require("../models/Rooms");
 
 module.exports = {
