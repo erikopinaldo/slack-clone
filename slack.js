@@ -19,6 +19,10 @@ const expressServer = app.listen(9000);
 // any time we listen to events with io, we are listening for events coming from all clients
 const io = socketio(expressServer)
 
+//Setup Routes For Which The Server Is Listening
+app.use("/", mainRoutes);
+app.use("/post", postRoutes);
+
 // note that io.on === io.of('/').on ;)
 io.on('connection', (socket) => {
 
