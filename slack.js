@@ -9,7 +9,7 @@ const debug = require('debug')('chat')
 const app = express();
 const mongoose = require('mongoose');
 const mainRoutes = require("./routes/main");
-const channelsRoutes = require("./routes/channels");
+const roomsRoutes = require("./routes/rooms");
 const connectDB = require('./config/database');
 
 connectDB();
@@ -23,7 +23,7 @@ const io = socketio(expressServer)
 
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
-app.use("/channels", channelsRoutes);
+app.use("/rooms", roomsRoutes);
 
 // note that io.on === io.of('/').on ;)
 io.on('connection', (socket) => {
