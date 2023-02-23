@@ -21,7 +21,14 @@ require("./config/passport")(passport);
 
 connectDB();
 
+//Using EJS for views
+app.set("view engine", "ejs");
+
 app.use(express.static(__dirname + '/public'));
+
+//Body Parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 const expressServer = app.listen(9000);
 
