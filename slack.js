@@ -8,6 +8,8 @@ const debug = require('debug')('chat')
 
 const app = express();
 const mongoose = require('mongoose');
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 const mainRoutes = require("./routes/main");
 const roomsRoutes = require("./routes/rooms");
 const connectDB = require('./config/database');
