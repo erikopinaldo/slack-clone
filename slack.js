@@ -8,6 +8,7 @@ const debug = require('debug')('chat')
 
 const app = express();
 const mongoose = require('mongoose');
+const flash = require("express-flash");
 const passport = require("passport");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
