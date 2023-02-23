@@ -8,7 +8,7 @@ module.exports = {
       //console.log(req.user) to see everything
       //Grabbing just the posts of the logged-in user
       //Sending post data from mongodb and user data to ejs template
-      res.render("rooms.html");
+      res.render("rooms");
     } catch (err) {
       console.log(err);
     }
