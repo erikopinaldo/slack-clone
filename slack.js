@@ -14,6 +14,9 @@ const mainRoutes = require("./routes/main");
 const roomsRoutes = require("./routes/rooms");
 const connectDB = require('./config/database');
 
+// Passport config
+require("./config/passport")(passport);
+
 connectDB();
 
 app.use(express.static(__dirname + '/public'));
