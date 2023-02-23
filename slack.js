@@ -26,6 +26,16 @@ const expressServer = app.listen(9000);
 // any time we listen to events with io, we are listening for events coming from all clients
 const io = socketio(expressServer)
 
+// Setup Sessions - stored in MongoDB
+app.use(
+    session({
+        secret: "keyboard cat",
+        resave: false,
+        saveUninitialized: false,
+        store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    })
+);
+
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
 app.use("/rooms", roomsRoutes);
