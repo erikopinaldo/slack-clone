@@ -1,4 +1,4 @@
-const username = prompt("what is your name? ") // prompt the user to enter his username
+// const username = prompt("what is your name? ") // prompt the user to enter his username
 
 const socket = io('http://localhost:9000', { // here we connect to the socket and use
     query: {                                 // use the options to send the username 
