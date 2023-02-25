@@ -35,15 +35,15 @@ const expressServer = app.listen(9000);
 // any time we listen to events with io, we are listening for events coming from all clients
 const io = socketio(expressServer)
 
+const sessionMiddleware = session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.DB_CONNECTION_STRING }),
+})
+
 // Setup Sessions - stored in MongoDB
-app.use(
-    session({
-        secret: "keyboard cat",
-        resave: false,
-        saveUninitialized: false,
-        store: MongoStore.create({ mongoUrl: process.env.DB_CONNECTION_STRING }),
-    })
-);
+app.use(sessionMiddleware);
 
 // Passport middleware
 app.use(passport.initialize());
@@ -56,8 +56,15 @@ app.use(flash());
 app.use("/", mainRoutes);
 // app.use("/rooms", roomsRoutes);
 
+// convert a connect middleware to a Socket.IO middleware
+const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
+
+io.use(wrap(sessionMiddleware));
+
 // note that io.on === io.of('/').on ;)
 io.on('connection', (socket) => {
+
+    console.log(socket.request.session)
 
     // build an array of namespaces with img and endpoint to send back
     // with this namespace map, every connection gets the same list of namespaces 
@@ -79,7 +86,7 @@ namespaces.forEach((namespace) => {
         socket.emit('nsRoomLoad', namespace.rooms)
 
         // username is added to the fullMsg object
-        let username = socket.handshake.query.username;
+        let username = socket.request.session.userName;
 
         if (!username) {
             username = "Anonymous"
