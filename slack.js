@@ -52,10 +52,6 @@ app.use(passport.session());
 //Use flash messages for errors, info, ect...
 app.use(flash());
 
-//Setup Routes For Which The Server Is Listening
-app.use("/", mainRoutes);
-// app.use("/rooms", roomsRoutes);
-
 // convert a connect middleware to a Socket.IO middleware
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
 
@@ -181,3 +177,7 @@ namespaces.forEach((namespace) => {
 //         io.of(namespace.endpoint).in(roomToJoin).emit('updateMembers', clients.length)
 //     })
 // }
+
+//Setup Routes For Which The Server Is Listening
+app.use("/", mainRoutes);
+// app.use("/rooms", roomsRoutes);
