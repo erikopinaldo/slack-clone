@@ -1,10 +1,8 @@
 // const username = prompt("what is your name? ") // prompt the user to enter his username
 
-const socket = io('http://localhost:9000', { // here we connect to the socket and use
-    query: {                                 // use the options to send the username 
-        username                             // the user provided which will be connected
-    }                                        // to the main namespace(NS) i.e. /
-});
+const socket = io('http://localhost:9000');
+
+console.log('connected!')
 
 let nsSocket = ""; // we setup an initial global variable
 
