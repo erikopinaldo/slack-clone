@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require('express');
 const socketio = require('socket.io');
 const models = require('./models');
+const User = require('./models/Users');
 const namespaces = require("./data/namespaces");
 const debug = require('debug')('chat')
 
@@ -77,18 +78,22 @@ io.on('connection', (socket) => {
 
 // loop through each ns and listen for a connection
 namespaces.forEach((namespace) => {
-    io.of(namespace.endpoint).on('connection', socket => {
+    io.of(namespace.endpoint).on('connection', async socket => {
 
         socket.emit('nsRoomLoad', namespace.rooms)
 
+        let username = await User.find({
+            _id: socket.request.session.passport.user
+        })
+
+        console.log(username[0].userName)
+
         // username is added to the fullMsg object
-        let username = socket.request.session.userName;
+        // let username = socket.request.session.userName;
 
         if (!username) {
             username = "Anonymous"
         }
-
-        console.log(username)
 
         socket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
 
@@ -118,10 +123,12 @@ namespaces.forEach((namespace) => {
             const fullMsg = {
                 text: msg.text,
                 time: Date.now(),
-                user: username,
+                user: username[0].userName,
                 room: roomTitle,
                 avatar: 'https://via.placeholder.com/30'
             }
+
+            console.log(fullMsg)
             
             // find the room object for this room
             const nsRoom = namespace.rooms.find((room) => {
