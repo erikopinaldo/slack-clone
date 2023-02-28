@@ -85,10 +85,6 @@ namespaces.forEach((namespace) => {
         let user = await User.findById(socket.request.session.passport.user).select('userName');
         let username = user.userName;
 
-        if (!username) {
-            username = "Anonymous"
-        }
-
         socket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
 
             const roomToLeave = [...socket.rooms][1]
