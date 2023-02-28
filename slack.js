@@ -155,24 +155,6 @@ namespaces.forEach((namespace) => {
             } catch (err) {
                 console.log(err)
             }
-
-            // const newMessage = new models.Messages()
-
-            // newMessage.user = username
-            // newMessage.text = msg.text
-            // newMessage.room = roomTitle
-
-            // console.log(newMessage)
-
-            // newMessage
-            //     .save()
-            //     .then(() =>
-            //         debug(
-            //             `${username} sent message ${msg.text
-            //             } to channel ${roomTitle}`
-            //         )
-            //     )
-            //     .then(null, error => debug(`error sending message: ${error}`))
         })
     })
 })
