@@ -88,9 +88,6 @@ namespaces.forEach((namespace) => {
 
         console.log(username[0].userName)
 
-        // username is added to the fullMsg object
-        // let username = socket.request.session.userName;
-
         if (!username) {
             username = "Anonymous"
         }
