@@ -82,9 +82,8 @@ namespaces.forEach((namespace) => {
 
         socket.emit('nsRoomLoad', namespace.rooms)
 
-        let username = await User.findById(socket.request.session.passport.user).select('userName');
-
-        console.log(username)
+        let user = await User.findById(socket.request.session.passport.user).select('userName');
+        let username = user.userName;
 
         if (!username) {
             username = "Anonymous"
