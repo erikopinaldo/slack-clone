@@ -82,18 +82,8 @@ namespaces.forEach((namespace) => {
 
         socket.emit('nsRoomLoad', namespace.rooms)
 
-        let username = await User.find({
-            _id: socket.request.session.passport.user
-        })
-
-        console.log(username[0].userName)
-
-        // username is added to the fullMsg object
-        // let username = socket.request.session.userName;
-
-        if (!username) {
-            username = "Anonymous"
-        }
+        let user = await User.findById(socket.request.session.passport.user).select('userName');
+        let username = user.userName;
 
         socket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
 
@@ -155,24 +145,6 @@ namespaces.forEach((namespace) => {
             } catch (err) {
                 console.log(err)
             }
-
-            // const newMessage = new models.Messages()
-
-            // newMessage.user = username
-            // newMessage.text = msg.text
-            // newMessage.room = roomTitle
-
-            // console.log(newMessage)
-
-            // newMessage
-            //     .save()
-            //     .then(() =>
-            //         debug(
-            //             `${username} sent message ${msg.text
-            //             } to channel ${roomTitle}`
-            //         )
-            //     )
-            //     .then(null, error => debug(`error sending message: ${error}`))
         })
     })
 })
