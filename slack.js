@@ -127,6 +127,7 @@ namespaces.forEach((namespace) => {
                 return room.roomTitle === roomTitle;
             })
             
+            // Add message to room history
             nsRoom.addMessage(fullMsg)
 
             // Send this message to All the sockets that are in the room
