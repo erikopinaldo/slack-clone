@@ -133,7 +133,7 @@ namespaces.forEach((namespace) => {
             })
             
             // Add message to room history
-            nsRoom.addMessage(fullMsg)
+            // nsRoom.addMessage(fullMsg)
 
             // Send this message to All the sockets that are in the room
             // that this socket is in
