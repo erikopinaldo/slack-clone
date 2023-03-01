@@ -120,7 +120,7 @@ namespaces.forEach((namespace) => {
             const fullMsg = {
                 text: msg.text,
                 time: Date.now(),
-                user: username[0].userName,
+                user: username,
                 room: roomTitle,
                 avatar: 'https://via.placeholder.com/30'
             }
