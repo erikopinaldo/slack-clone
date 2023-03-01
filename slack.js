@@ -86,7 +86,7 @@ namespaces.forEach((namespace) => {
         let user = await User.findById(socket.request.session.passport.user).select('userName');
         let username = user.userName;
 
-        socket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
+        socket.on('joinRoom', async (roomToJoin, numberOfUsersCallback) => {
 
             console.log('joining room ' + roomToJoin)
 
@@ -97,15 +97,19 @@ namespaces.forEach((namespace) => {
             // updateUsersInRoom(namespace, roomToLeave)
 
             // join the socket to the new room
-            socket.join(roomToJoin)
+            socket.join(roomToJoin.toLowerCase())
             // updateUsersInRoom(namespace, roomToJoin)
 
             // grab the room
             const nsRoom = namespace.rooms.find((room) => {
                 return room.roomTitle === roomToJoin;
             })
+
+            let messageHistory = await Message.find({ room: roomToJoin.toLowerCase() }).exec();
+            console.log(messageHistory)
+
             // send out the room history
-            socket.emit("historyCatchUp", nsRoom.history)
+            socket.emit("historyCatchUp", messageHistory)
         })
 
         socket.on('newMessageToServer', (msg) => {
