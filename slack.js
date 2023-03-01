@@ -87,6 +87,8 @@ namespaces.forEach((namespace) => {
 
         socket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
 
+            console.log('joining room ' + roomToJoin)
+
             const roomToLeave = [...socket.rooms][1]
             
             // leave old room
