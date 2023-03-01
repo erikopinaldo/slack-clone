@@ -82,7 +82,7 @@ namespaces.forEach((namespace) => {
 
         socket.emit('nsRoomLoad', namespace.rooms)
 
-        let user = await User.findById(socket.request.session.passport.user).select('userName');
+        let user = await models.Users.findById(socket.request.session.passport.user).select('userName');
         let username = user.userName;
 
         socket.on('joinRoom', async (roomToJoin, numberOfUsersCallback) => {
