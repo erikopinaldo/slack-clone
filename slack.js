@@ -4,7 +4,6 @@ const express = require('express');
 const socketio = require('socket.io');
 const models = require('./models');
 const User = require('./models/Users');
-const Message = require('./models/Messages');
 const namespaces = require("./data/namespaces");
 const debug = require('debug')('chat')
 
@@ -105,7 +104,7 @@ namespaces.forEach((namespace) => {
                 return room.roomTitle === roomToJoin;
             })
 
-            let messageHistory = await Message.find({ room: roomToJoin.toLowerCase() }).exec();
+            let messageHistory = await models.Messages.find({ room: roomToJoin.toLowerCase() }).exec();
             console.log(messageHistory)
 
             // send out the room history
