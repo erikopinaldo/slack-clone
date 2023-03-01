@@ -4,6 +4,7 @@ const express = require('express');
 const socketio = require('socket.io');
 const models = require('./models');
 const User = require('./models/Users');
+const Message = require('./models/Messages');
 const namespaces = require("./data/namespaces");
 const debug = require('debug')('chat')
 
