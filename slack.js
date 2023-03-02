@@ -58,16 +58,19 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
 
 io.use(wrap(sessionMiddleware));
 
-// note that io.on === io.of('/').on ;)
-io.on('connection', (socket) => {
+// loop through each ns and listen for a connection
+models.Namespaces.find()
+    .exec()
+    .then((namespaces) => {
+        console.log(namespaces)
 
-    console.log(socket.request.session)
+        // note that io.on === io.of('/').on ;)
+        io.on('connection', (socket) => {
 
-    // build an array of namespaces with img and endpoint to send back
-    // with this namespace map, every connection gets the same list of namespaces 
-    models.Namespaces.find()
-        .exec()
-        .then((namespaces) => {
+            console.log(socket.request.session)
+
+            // build an array of namespaces with img and endpoint to send back
+            // with this namespace map, every connection gets the same list of namespaces 
             let nsData = namespaces.map((ns) => {
                 return {
                     img: ns.img,
@@ -78,13 +81,7 @@ io.on('connection', (socket) => {
             // because we want it to go to just this client
             socket.emit('nsList', nsData) // send nsData back to the client  
         })
-})
 
-// loop through each ns and listen for a connection
-models.Namespaces.find()
-    .exec()
-    .then((namespaces) => {
-        console.log(namespaces)
         namespaces.forEach((namespace) => {
             io.of(namespace.endpoint).on('connection', async socket => {
 
