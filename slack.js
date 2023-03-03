@@ -106,7 +106,7 @@ models.Namespaces.find()
 
                     // grab the room
                     const nsRoom = namespace.rooms.find((room) => {
-                        return room.roomTitle === roomToJoin;
+                        return room.name === roomToJoin;
                     })
 
                     let messageHistory = await models.Messages.find({ room: roomToJoin.toLowerCase() }).exec();
@@ -133,7 +133,7 @@ models.Namespaces.find()
 
                     // find the room object for this room
                     const nsRoom = namespace.rooms.find((room) => {
-                        return room.roomTitle === roomTitle;
+                        return room.name === roomTitle;
                     })
 
                     // Add message to room history
