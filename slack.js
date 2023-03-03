@@ -85,7 +85,10 @@ models.Namespaces.find()
         namespaces.forEach((namespace) => {
             io.of(namespace.endpoint).on('connection', async socket => {
 
-                socket.emit('nsRoomLoad', namespace.rooms)
+                let nsRooms = await models.Rooms.find({ namespace: namespace.name }).exec();
+
+
+                socket.emit('nsRoomLoad', nsRooms)
 
                 let user = await models.Users.findById(socket.request.session.passport.user).select('userName');
                 let username = user.userName;
