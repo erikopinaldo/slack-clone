@@ -107,11 +107,6 @@ models.Namespaces.find()
                     socket.join(roomToJoin.toLowerCase())
                     // updateUsersInRoom(namespace, roomToJoin)
 
-                    // grab the room
-                    const nsRoom = namespace.rooms.find((room) => {
-                        return room.name === roomToJoin;
-                    })
-
                     let messageHistory = await models.Messages.find({ room: roomToJoin.toLowerCase() }).exec();
                     console.log(messageHistory)
 
@@ -133,14 +128,6 @@ models.Namespaces.find()
                     }
 
                     console.log(fullMsg)
-
-                    // find the room object for this room
-                    const nsRoom = namespace.rooms.find((room) => {
-                        return room.name === roomTitle;
-                    })
-
-                    // Add message to room history
-                    // nsRoom.addMessage(fullMsg)
 
                     // Send this message to All the sockets that are in the room
                     // that this socket is in
