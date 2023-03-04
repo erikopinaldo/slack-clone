@@ -8,16 +8,17 @@ function joinNs(endpoint) {
     }
     nsSocket = io(`http://localhost:9000${endpoint}`)
     nsSocket.on('nsRoomLoad', (nsRooms) => {
+        console.log(nsRooms)
         let roomList = document.querySelector('.room-list');
         roomList.innerHTML = ""
         nsRooms.forEach((room) => {
             let glyph;
-            if (room.privateRoom) {
+            if (room.isPrivate) {
                 glyph = 'lock'
             } else {
                 glyph = 'globe'
             }
-            roomList.innerHTML += `<li class="room"><span class="glyphicon glyphicon-${glyph}"></span>${room.roomTitle}</li>`
+            roomList.innerHTML += `<li class="room"><span class="glyphicon glyphicon-${glyph}"></span>${room.name}</li>`
         })
 
         // add click listener to each room
