@@ -4,7 +4,6 @@ const express = require('express');
 const socketio = require('socket.io');
 const models = require('./models');
 const User = require('./models/Users');
-const namespaces = require("./data/namespaces");
 const debug = require('debug')('chat')
 
 const app = express();
@@ -58,96 +57,100 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
 
 io.use(wrap(sessionMiddleware));
 
-// note that io.on === io.of('/').on ;)
-io.on('connection', (socket) => {
-
-    console.log(socket.request.session)
-
-    // build an array of namespaces with img and endpoint to send back
-    // with this namespace map, every connection gets the same list of namespaces 
-    let nsData = namespaces.map((ns) => {
-        return {
-            img: ns.img,
-            endpoint: ns.endpoint
-        }
-    })
-    // We need to use socket, not IO this is
-    // because we want it to go to just this client
-    socket.emit('nsList', nsData) // send nsData back to the client  
-})
-
 // loop through each ns and listen for a connection
-namespaces.forEach((namespace) => {
-    io.of(namespace.endpoint).on('connection', async socket => {
+models.Namespaces.find()
+    .exec()
+    .then((namespaces) => {
+        console.log(namespaces)
 
-        socket.emit('nsRoomLoad', namespace.rooms)
+        // note that io.on === io.of('/').on ;)
+        io.on('connection', (socket) => {
 
-        let user = await User.findById(socket.request.session.passport.user).select('userName');
-        let username = user.userName;
+            console.log(socket.request.session)
 
-        socket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
-
-            const roomToLeave = [...socket.rooms][1]
-            
-            // leave old room
-            socket.leave(roomToLeave)
-            // updateUsersInRoom(namespace, roomToLeave)
-
-            // join the socket to the new room
-            socket.join(roomToJoin)
-            // updateUsersInRoom(namespace, roomToJoin)
-
-            // grab the room
-            const nsRoom = namespace.rooms.find((room) => {
-                return room.roomTitle === roomToJoin;
+            // build an array of namespaces with img and endpoint to send back
+            // with this namespace map, every connection gets the same list of namespaces 
+            let nsData = namespaces.map((ns) => {
+                return {
+                    img: ns.img,
+                    endpoint: ns.endpoint
+                }
             })
-            // send out the room history
-            socket.emit("historyCatchUp", nsRoom.history)
+            // We need to use socket, not IO this is
+            // because we want it to go to just this client
+            socket.emit('nsList', nsData) // send nsData back to the client  
         })
 
-        socket.on('newMessageToServer', (msg) => {
-            // the user will be in the 2nd room in the object list this is because
-            // the socket always joins it's own room on connection
-            const roomTitle = [...socket.rooms][1]; //get the keys
-            
-            const fullMsg = {
-                text: msg.text,
-                time: Date.now(),
-                user: username[0].userName,
-                room: roomTitle,
-                avatar: 'https://via.placeholder.com/30'
-            }
+        namespaces.forEach((namespace) => {
+            io.of(namespace.endpoint).on('connection', async socket => {
 
-            console.log(fullMsg)
-            
-            // find the room object for this room
-            const nsRoom = namespace.rooms.find((room) => {
-                return room.roomTitle === roomTitle;
-            })
-            
-            nsRoom.addMessage(fullMsg)
+                let nsRooms = await models.Rooms.find({ namespace: namespace.name }).exec();
 
-            // Send this message to All the sockets that are in the room
-            // that this socket is in
-            io.of(namespace.endpoint).to(roomTitle).emit('messageToClients', fullMsg)
 
-            try {
-                console.log(fullMsg)
-                console.log('user: ' + fullMsg.user)
-                models.Messages.create(
-                    {
+                socket.emit('nsRoomLoad', nsRooms)
+
+                let user = await models.Users.findById(socket.request.session.passport.user).select('userName');
+                let username = user.userName;
+
+                socket.on('joinRoom', async (roomToJoin, numberOfUsersCallback) => {
+
+                    console.log('joining room ' + roomToJoin)
+
+                    const roomToLeave = [...socket.rooms][1]
+
+                    // leave old room
+                    socket.leave(roomToLeave)
+                    // updateUsersInRoom(namespace, roomToLeave)
+
+                    // join the socket to the new room
+                    socket.join(roomToJoin.toLowerCase())
+                    // updateUsersInRoom(namespace, roomToJoin)
+
+                    let messageHistory = await models.Messages.find({ room: roomToJoin.toLowerCase() }).exec();
+                    console.log(messageHistory)
+
+                    // send out the room history
+                    socket.emit("historyCatchUp", messageHistory)
+                })
+
+                socket.on('newMessageToServer', (msg) => {
+                    // the user will be in the 2nd room in the object list this is because
+                    // the socket always joins it's own room on connection
+                    const roomTitle = [...socket.rooms][1]; //get the keys
+
+                    const fullMsg = {
                         text: msg.text,
                         time: Date.now(),
-                        user: fullMsg.user,
+                        user: username,
                         room: roomTitle,
-                    })
-                    .then(console.log('Message has been added!'))
-            } catch (err) {
-                console.log(err)
-            }
+                        avatar: 'https://via.placeholder.com/30'
+                    }
+
+                    console.log(fullMsg)
+
+                    // Send this message to All the sockets that are in the room
+                    // that this socket is in
+                    io.of(namespace.endpoint).to(roomTitle).emit('messageToClients', fullMsg)
+
+                    try {
+                        console.log(fullMsg)
+                        console.log('user: ' + fullMsg.user)
+                        models.Messages.create(
+                            {
+                                text: msg.text,
+                                time: Date.now(),
+                                user: fullMsg.user,
+                                room: roomTitle,
+                            })
+                            .then(console.log('Message has been added!'))
+                    } catch (err) {
+                        console.log(err)
+                    }
+                })
+            })
         })
     })
-})
+
 
 // This is outdated now -- find another way to emit user counts to all clients
 // function updateUsersInRoom(namespace, roomToJoin) {

@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 
 const UserSchema = new mongoose.Schema({
     userName: { type: String, unique: true },
+    ns: { type: [String], default: ['anime'] },
+    rooms: { type: [String], default: ['naruto'] },
     email: { type: String, unique: true },
     password: String
 })

@@ -16,6 +16,10 @@ const NamespaceSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.String,
         unique: true,
     },
+    rooms: {
+        type: [String],
+        default: ['general']
+    },
 })
 
 NamespaceSchema.pre('save', function (next) {

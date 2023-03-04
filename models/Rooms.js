@@ -12,6 +12,10 @@ const RoomSchema = new mongoose.Schema({
         unique: true,
         required: true,
     },
+    isPrivate: {
+        type: mongoose.Schema.Types.Boolean,
+        default: false
+    },
 })
 
 RoomSchema.pre('save', function (next) {
