@@ -35,9 +35,10 @@ function joinNs(endpoint) {
         })
 
         // Add room automatically
-        const topRoom = document.querySelector('.room')
-        const topRoomName = topRoom.innerText;
-        joinRoom(topRoomName)
+        // const topRoom = document.querySelector('.room')
+        // const topRoomName = topRoom.innerText;
+        const activeRoom = localStorage.getItem('activeRoom')
+        joinRoom(activeRoom)
     })
     document.querySelector('.message-form').addEventListener('submit', formSubmission)
     nsSocket.on('messageToClients', (msg) => {
