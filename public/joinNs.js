@@ -1,4 +1,9 @@
 function joinNs(endpoint) {
+    // set default room to naruto
+    if (!localStorage.getItem('activeRoom')) {
+        localStorage.setItem('activeRoom', 'naruto')
+    }
+    
     // close connection to namespace when no longer in use
     if (nsSocket) {
         // check to see if nsSocket is a socket
