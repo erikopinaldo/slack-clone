@@ -11,7 +11,7 @@ function joinNs(endpoint) {
         // remove event listener before it's added again
         document.querySelector("#user-input").removeEventListener('submit', formSubmission)
     }
-    nsSocket = io(`http://localhost:9000${endpoint}`)
+    nsSocket = io(`https://slack-clone.fly.dev${endpoint}`)
     nsSocket.on('nsRoomLoad', (nsRooms) => {
         console.log(nsRooms)
         let roomList = document.querySelector('.room-list');
