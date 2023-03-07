@@ -1,4 +1,9 @@
 function joinNs(endpoint) {
+    // set default room to naruto
+    if (!localStorage.getItem('activeRoom')) {
+        localStorage.setItem('activeRoom', 'naruto')
+    }
+    
     // close connection to namespace when no longer in use
     if (nsSocket) {
         // check to see if nsSocket is a socket
@@ -30,9 +35,10 @@ function joinNs(endpoint) {
         })
 
         // Add room automatically
-        const topRoom = document.querySelector('.room')
-        const topRoomName = topRoom.innerText;
-        joinRoom(topRoomName)
+        // const topRoom = document.querySelector('.room')
+        // const topRoomName = topRoom.innerText;
+        const activeRoom = localStorage.getItem('activeRoom')
+        joinRoom(activeRoom)
     })
     document.querySelector('.message-form').addEventListener('submit', formSubmission)
     nsSocket.on('messageToClients', (msg) => {
