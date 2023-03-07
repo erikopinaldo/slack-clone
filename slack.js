@@ -30,7 +30,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const expressServer = app.listen(9000);
+const expressServer = app.listen(process.env.PORT || 8080);
 
 // any time we listen to events with io, we are listening for events coming from all clients
 const io = socketio(expressServer)
@@ -107,7 +107,8 @@ models.Namespaces.find()
                     // updateUsersInRoom(namespace, roomToJoin)
 
                     let messageHistory = await models.Messages.find({ room: roomToJoin.toLowerCase() }).exec();
-                    
+                    console.log(messageHistory)
+
                     // send out the room history
                     socket.emit("historyCatchUp", messageHistory)
                 })
