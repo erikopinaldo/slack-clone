@@ -1,4 +1,5 @@
 function joinRoom(roomName) {
+    console.log('calling joinRoom with ' + roomName)
     // Send roomName to the server
     nsSocket.emit('joinRoom', roomName, (newNumberOfMembers) => {
         // want to update the room member total

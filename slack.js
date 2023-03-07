@@ -107,8 +107,7 @@ models.Namespaces.find()
                     // updateUsersInRoom(namespace, roomToJoin)
 
                     let messageHistory = await models.Messages.find({ room: roomToJoin.toLowerCase() }).exec();
-                    console.log(messageHistory)
-
+                    
                     // send out the room history
                     socket.emit("historyCatchUp", messageHistory)
                 })
