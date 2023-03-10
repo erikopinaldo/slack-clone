@@ -30,6 +30,7 @@ function joinNs(endpoint) {
         let roomNodes = document.getElementsByClassName('room');
         Array.from(roomNodes).forEach(elem => {
             elem.addEventListener('click', (e) => {
+                localStorage.setItem('activeRoom', e.target.innerText)
                 joinRoom(e.target.innerText)
             })
         })
@@ -38,7 +39,11 @@ function joinNs(endpoint) {
         // const topRoom = document.querySelector('.room')
         // const topRoomName = topRoom.innerText;
         const activeRoom = localStorage.getItem('activeRoom')
-        joinRoom(activeRoom)
+        
+        setTimeout(() => {
+            console.log('set timeout')
+            joinRoom(activeRoom)
+        }, 1000)
     })
     document.querySelector('.message-form').addEventListener('submit', formSubmission)
     nsSocket.on('messageToClients', (msg) => {
