@@ -31,7 +31,6 @@ function joinNs(endpoint) {
         Array.from(roomNodes).forEach(elem => {
             elem.addEventListener('click', (e) => {
                 localStorage.setItem('activeRoom', e.target.innerText)
-                joinRoom(e.target.innerText)
             })
         })
 
