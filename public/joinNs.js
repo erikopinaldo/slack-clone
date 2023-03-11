@@ -40,10 +40,7 @@ function joinNs(endpoint) {
         // const topRoomName = topRoom.innerText;
         const activeRoom = localStorage.getItem('activeRoom')
         
-        setTimeout(() => {
-            console.log('set timeout')
-            joinRoom(activeRoom)
-        }, 1000)
+        joinRoom(activeRoom)
     })
     document.querySelector('.message-form').addEventListener('submit', formSubmission)
     nsSocket.on('messageToClients', (msg) => {

@@ -57,6 +57,10 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
 
 io.use(wrap(sessionMiddleware));
 
+//Setup Routes For Which The Server Is Listening
+app.use("/", mainRoutes);
+app.use("/rooms", roomsRoutes);
+
 // loop through each ns and listen for a connection
 models.Namespaces.find()
     .exec()
@@ -159,7 +163,3 @@ models.Namespaces.find()
 //         io.of(namespace.endpoint).in(roomToJoin).emit('updateMembers', clients.length)
 //     })
 // }
-
-//Setup Routes For Which The Server Is Listening
-app.use("/", mainRoutes);
-app.use("/rooms", roomsRoutes);
