@@ -67,7 +67,7 @@ models.Namespaces.find()
         io.on('connection', (socket) => {
 
             console.log(socket.request.session)
-
+            
             // build an array of namespaces with img and endpoint to send back
             // with this namespace map, every connection gets the same list of namespaces 
             let nsData = namespaces.map((ns) => {
@@ -85,7 +85,6 @@ models.Namespaces.find()
             io.of(namespace.endpoint).on('connection', async socket => {
 
                 let nsRooms = await models.Rooms.find({ namespace: namespace.name }).exec();
-
 
                 socket.emit('nsRoomLoad', nsRooms)
 
