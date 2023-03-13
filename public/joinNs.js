@@ -25,7 +25,7 @@ function joinNs(endpoint) {
     })
 
     document.querySelector('.message-form').addEventListener('submit', formSubmission)
-    
+
     nsSocket.on('messageToClients', (msg) => {
         const newMsg = buildHTML(msg)
         document.querySelector('#messages').innerHTML += newMsg
@@ -34,8 +34,10 @@ function joinNs(endpoint) {
 
 function formSubmission(event) {
     event.preventDefault();
+    const roomName = window.location.pathname.split("/").pop();
+    console.log(roomName);
     const newMessage = document.querySelector('#user-message').value;
-    nsSocket.emit('newMessageToServer', { text: newMessage });
+    nsSocket.emit('newMessageToServer', roomName, { text: newMessage });
     document.querySelector('#user-input').reset();
 }
 
