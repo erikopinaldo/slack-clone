@@ -57,6 +57,12 @@ const wrap = middleware => (socket, next) => middleware(socket.request, {}, next
 
 io.use(wrap(sessionMiddleware));
 
+// Share io instance throughout app files
+app.use(function (req, res, next) {
+    req.io = io;
+    next();
+});
+
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
 app.use("/rooms", roomsRoutes);
@@ -90,32 +96,10 @@ models.Namespaces.find()
 
                 let nsRooms = await models.Rooms.find({ namespace: namespace.name }).exec();
 
-
                 socket.emit('nsRoomLoad', nsRooms)
 
                 let user = await models.Users.findById(socket.request.session.passport.user).select('userName');
                 let username = user.userName;
-
-                socket.on('joinRoom', async (roomToJoin, numberOfUsersCallback) => {
-
-                    console.log('joining room ' + roomToJoin)
-
-                    const roomToLeave = [...socket.rooms][1]
-
-                    // leave old room
-                    socket.leave(roomToLeave)
-                    // updateUsersInRoom(namespace, roomToLeave)
-
-                    // join the socket to the new room
-                    socket.join(roomToJoin.toLowerCase())
-                    // updateUsersInRoom(namespace, roomToJoin)
-
-                    let messageHistory = await models.Messages.find({ room: roomToJoin.toLowerCase() }).exec();
-                    console.log(messageHistory)
-
-                    // send out the room history
-                    socket.emit("historyCatchUp", messageHistory)
-                })
 
                 socket.on('newMessageToServer', (msg) => {
                     // the user will be in the 2nd room in the object list this is because
