@@ -1,9 +1,4 @@
-function joinNs(endpoint) {
-    // set default room to naruto
-    if (!localStorage.getItem('activeRoom')) {
-        localStorage.setItem('activeRoom', 'naruto')
-    }
-    
+function joinNs(endpoint) { 
     // close connection to namespace when no longer in use
     if (nsSocket) {
         // check to see if nsSocket is a socket
@@ -11,7 +6,9 @@ function joinNs(endpoint) {
         // remove event listener before it's added again
         document.querySelector("#user-input").removeEventListener('submit', formSubmission)
     }
+
     nsSocket = io(`http://localhost:8080${endpoint}`)
+    
     nsSocket.on('nsRoomLoad', (nsRooms) => {
         console.log(nsRooms)
         let roomList = document.querySelector('.room-list');
@@ -25,34 +22,23 @@ function joinNs(endpoint) {
             }
             roomList.innerHTML += `<li class="room"><span class="glyphicon glyphicon-${glyph}"></span><a href="/rooms/${room.name}">${room.name}</a></li>`
         })
-
-        // add click listener to each room
-        let roomNodes = document.getElementsByClassName('room');
-        Array.from(roomNodes).forEach(elem => {
-            elem.addEventListener('click', (e) => {
-                localStorage.setItem('activeRoom', e.target.innerText)
-            })
-        })
-
-        // Add room automatically
-        // const topRoom = document.querySelector('.room')
-        // const topRoomName = topRoom.innerText;
-        const activeRoom = localStorage.getItem('activeRoom')
-        
-        joinRoom(activeRoom)
     })
+
     document.querySelector('.message-form').addEventListener('submit', formSubmission)
+    
     nsSocket.on('messageToClients', (msg) => {
         const newMsg = buildHTML(msg)
         document.querySelector('#messages').innerHTML += newMsg
     })
 }
+
 function formSubmission(event) {
     event.preventDefault();
     const newMessage = document.querySelector('#user-message').value;
-    nsSocket.emit('newMessageToServer', { text: newMessage })
-    document.querySelector('#user-input').reset()
+    nsSocket.emit('newMessageToServer', { text: newMessage });
+    document.querySelector('#user-input').reset();
 }
+
 function buildHTML(msg) {
     const convertedDate = new Date(msg.time).toLocaleString();
     const newHTML = `
