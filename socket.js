@@ -42,14 +42,7 @@ const handleChatConnection = async (socket) => {
         try {
             console.log(fullMsg)
             console.log('user: ' + fullMsg.user)
-            models.Messages.create(
-                {
-                    text: msg.text,
-                    time: Date.now(),
-                    user: fullMsg.user,
-                    room: roomName,
-                    avatar: 'https://via.placeholder.com/30',
-                })
+            models.Messages.create(fullMsg)
                 .then(console.log('Message has been added!'))
         } catch (err) {
             console.log(err)
