@@ -3,9 +3,12 @@ const models = require("../models");
 module.exports = {
   getRooms: async (req, res) => { 
     try {
-      console.log(req.io)
+      let namespace = req.io.of('/anime')
       let roomName = req.params.name.toLowerCase()
-      req.io.of('/anime').emit('joinRoom', roomName)
+      req.io.of(namespace).on('connection', (socket) => {
+        socket.join(roomName)
+        console.log(socket.rooms)
+      })
       let messageHistory = await models.Messages.find({ room: roomName }).exec()
       console.log('visiting: ' + req.params.name)
       
