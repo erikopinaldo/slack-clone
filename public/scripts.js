@@ -24,3 +24,6 @@ socket.on('nsList', (nsData) => {
     })
     joinNs('/anime')
 })
+
+const messagesUl = document.querySelector("#messages")
+messagesUl.scrollTo(0, messagesUl.scrollHeight)
