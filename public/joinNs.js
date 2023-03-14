@@ -24,6 +24,8 @@ function joinNs(endpoint) {
         })
     })
 
+    // socket.emit('joinRoom', window.location.pathname.split("/").pop())
+
     document.querySelector('.message-form').addEventListener('submit', formSubmission)
 
     nsSocket.on('messageToClients', (msg) => {
