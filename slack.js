@@ -93,7 +93,10 @@ models.Namespaces.find()
         })
 
         namespaces.forEach((namespace) => {
-            io.of(namespace.endpoint).on('connection', handleChatConnection)
+            let nsp = io.of(namespace.endpoint)
+            nsp.on('connection', (socket) => {
+                handleChatConnection(socket, nsp, namespace)
+            })
         })
     })
 
