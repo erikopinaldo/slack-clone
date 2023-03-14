@@ -6,9 +6,6 @@ const handleChatConnection = async (socket) => {
 
     let nsRooms = await models.Rooms.find({ namespace: socket.nsp.name.slice(1) }).exec();
 
-    console.log('ns rooms')
-    console.log(nsRooms)
-
     socket.emit('nsRoomLoad', nsRooms)
 
     // Handle joining a room within the chat namespace
