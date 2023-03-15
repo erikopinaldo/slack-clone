@@ -31,6 +31,9 @@ app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+//Use flash messages for errors, info, ect...
+app.use(flash());
+
 const expressServer = app.listen(process.env.PORT || 8080);
 
 // any time we listen to events with io, we are listening for events coming from all clients
@@ -50,12 +53,8 @@ app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 
-//Use flash messages for errors, info, ect...
-app.use(flash());
-
 // convert a connect middleware to a Socket.IO middleware
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
-
 io.use(wrap(sessionMiddleware));
 
 // Share io instance throughout app files
@@ -92,6 +91,7 @@ models.Namespaces.find()
             socket.emit('nsList', nsData) // send nsData back to the client  
         })
 
+        //Set up connection handler for each namespace
         namespaces.forEach((namespace) => {
             let nsp = io.of(namespace.endpoint)
             nsp.on('connection', (socket) => {
