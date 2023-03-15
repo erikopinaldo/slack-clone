@@ -31,6 +31,9 @@ app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+//Use flash messages for errors, info, ect...
+app.use(flash());
+
 const expressServer = app.listen(process.env.PORT || 8080);
 
 // any time we listen to events with io, we are listening for events coming from all clients
@@ -49,9 +52,6 @@ app.use(sessionMiddleware);
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
-
-//Use flash messages for errors, info, ect...
-app.use(flash());
 
 // convert a connect middleware to a Socket.IO middleware
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
