@@ -46,6 +46,11 @@ body {
     color: #ABB2BF;
 }
 
+.room a {
+    text-decoration: none;
+    color: white;
+}
+
 .chat-panel {
     background-color: #fff;
     min-height: 100vh;

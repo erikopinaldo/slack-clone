@@ -1,14 +1,19 @@
-const Rooms = require("../models/Rooms");
+const models = require("../models");
 
 module.exports = {
   getRooms: async (req, res) => { 
-    console.log(req.user)
     try {
-      //Since we have a session each request (req) contains the logged-in users info: req.user
-      //console.log(req.user) to see everything
-      //Grabbing just the posts of the logged-in user
-      //Sending post data from mongodb and user data to ejs template
-      res.render("rooms");
+      let namespace = req.io.of('/anime')
+      let roomName = req.params.name.toLowerCase()
+      req.io.of(namespace).on('connection', (socket) => {
+        socket.join(roomName)
+        console.log(socket.rooms)
+      })
+      let messageHistory = await models.Messages.find({ room: roomName }).exec()
+      console.log('visiting: ' + req.params.name)
+      
+      res.render("rooms", { messageHistory: messageHistory, currentRoom: req.params.name });
+
     } catch (err) {
       console.log(err);
     }
