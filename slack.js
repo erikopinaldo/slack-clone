@@ -91,6 +91,7 @@ models.Namespaces.find()
             socket.emit('nsList', nsData) // send nsData back to the client  
         })
 
+        //Set up connection handler for each namespace
         namespaces.forEach((namespace) => {
             let nsp = io.of(namespace.endpoint)
             nsp.on('connection', (socket) => {
