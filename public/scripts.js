@@ -1,6 +1,5 @@
 // const username = prompt("what is your name? ") // prompt the user to enter his username
-
-const socket = io('https://slack-clone.fly.dev/');
+const socket = io('http://localhost:8080');
 
 console.log('connected!')
 
@@ -25,3 +24,6 @@ socket.on('nsList', (nsData) => {
     })
     joinNs('/anime')
 })
+
+const messagesUl = document.querySelector("#messages")
+messagesUl.scrollTo(0, messagesUl.scrollHeight)
