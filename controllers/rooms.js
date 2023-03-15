@@ -5,7 +5,8 @@ module.exports = {
     try {
       let namespace = req.io.of('/anime')
       let roomName = req.params.name.toLowerCase()
-      req.io.of(namespace).on('connection', (socket) => {
+      namespace.on('connection', (socket) => {
+        socket.leave([...socket.rooms][1])
         socket.join(roomName)
         console.log(socket.rooms)
       })
