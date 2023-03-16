@@ -22,7 +22,7 @@ socket.on('nsList', (nsData) => {
             joinNs(nsEndpoint);
         });
     })
-    joinNs('/anime');
+    joinNs('/test');
 })
 
 const messagesUl = document.querySelector("#messages");
