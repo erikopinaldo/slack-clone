@@ -13,7 +13,7 @@ module.exports = {
       let messageHistory = await models.Messages.find({ room: roomName }).exec()
       console.log('visiting: ' + req.params.name)
       
-      res.render("rooms", { messageHistory: messageHistory, currentRoom: req.params.name });
+      res.render("rooms", { messageHistory: messageHistory, currentRoom: roomName });
 
     } catch (err) {
       console.log(err);
