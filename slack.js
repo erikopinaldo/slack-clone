@@ -37,14 +37,14 @@ app.use(flash());
 const expressServer = app.listen(process.env.PORT || 8080);
 
 // any time we listen to events with io, we are listening for events coming from all clients
-const io = socketio(expressServer)
+const io = socketio(expressServer);
 
 const sessionMiddleware = session({
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.DB_CONNECTION_STRING }),
-})
+});
 
 // Setup Sessions - stored in MongoDB
 app.use(sessionMiddleware);
@@ -71,12 +71,12 @@ app.use("/rooms", roomsRoutes);
 models.Namespaces.find()
     .exec()
     .then((namespaces) => {
-        console.log(namespaces)
+        console.log(namespaces);
 
         // note that io.on === io.of('/').on ;)
         io.on('connection', (socket) => {
 
-            console.log(socket.request.session)
+            console.log(socket.request.session);
 
             // build an array of namespaces with img and endpoint to send back
             // with this namespace map, every connection gets the same list of namespaces 
@@ -84,18 +84,18 @@ models.Namespaces.find()
                 return {
                     img: ns.img,
                     endpoint: ns.endpoint
-                }
-            })
+                };
+            });
             // We need to use socket, not IO this is
             // because we want it to go to just this client
-            socket.emit('nsList', nsData) // send nsData back to the client  
+            socket.emit('nsList', nsData); // send nsData back to the client  
         })
 
         //Set up connection handler for each namespace
         namespaces.forEach((namespace) => {
-            let nsp = io.of(namespace.endpoint)
+            let nsp = io.of(namespace.endpoint);
             nsp.on('connection', (socket) => {
-                handleChatConnection(socket, nsp, namespace)
+                handleChatConnection(socket, nsp, namespace);
             })
         })
     })
