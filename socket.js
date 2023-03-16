@@ -42,8 +42,8 @@ const handleChatConnection = async (socket) => {
         try {
             console.log(fullMsg)
             console.log('user: ' + fullMsg.user)
-            models.Messages.create(fullMsg)
-                .then(console.log('Message has been added!'))
+            await models.Messages.create(fullMsg)
+            console.log('Message has been added!')
         } catch (err) {
             console.log(err)
         }
