@@ -2,10 +2,7 @@
 
 As the name implies, this is a chat/messenger app similar to Slack or Discord.
 
-**Link to project:** https://slack-clone.fly.dev/
-
 ![slack_demo](./images/slack_demo.gif)
-
 
 ## How It's Made:
 
@@ -86,10 +83,6 @@ The other key tool that is helping serve customized views is authorization.
 * Email address and password fields on the website have basic validation via [validatorjs](https://github.com/validatorjs/validator.js).
   * Basic temporary validation errors appear on the login and signup pages using `express-flash`.
 * Sessions are saved to DB using `express-session`.
-
-### Service Hosting
-
-This service is hosted on [fly.io](https://fly.io/).
 
 ## Lessons Learned:
 
