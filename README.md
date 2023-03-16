@@ -17,7 +17,7 @@ As the name implies, this is a chat/messenger app similar to Slack or Discord.
 
 ### Using Socket.io
 
-We initialize an instance of `socket.io` by passing it our Express server object. This allows our server to listen to and events emitted by our frontend clients in real-time, as well as send events to clients in real-time. 
+We initialize an instance of `socket.io` by passing it our Express server object. This allows our server to listen to any events emitted by our frontend clients in real-time, as well as send events to clients in real-time. 
 
 On the frontend, we have our client JS script make a connection to our server via `socket.io`. We can now say that a socket is connected to our server. 
 
