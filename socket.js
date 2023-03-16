@@ -44,7 +44,8 @@ const handleChatConnection = async (socket) => {
             console.log('user: ' + fullMsg.user)
             await models.Messages.create(fullMsg)
             console.log('Message has been added!')
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err)
         }
         socket.to(roomName).emit('messageToClients', fullMsg);
