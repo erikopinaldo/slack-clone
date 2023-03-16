@@ -2,35 +2,35 @@ function joinNs(endpoint) {
     // close connection to namespace when no longer in use
     if (nsSocket) {
         // check to see if nsSocket is a socket
-        nsSocket.close()
+        nsSocket.close();
         // remove event listener before it's added again
-        document.querySelector("#user-input").removeEventListener('submit', formSubmission)
+        document.querySelector("#user-input").removeEventListener('submit', formSubmission);
     }
 
     nsSocket = io(`http://localhost:8080${endpoint}`)
     
     nsSocket.on('nsRoomLoad', (nsRooms) => {
-        console.log(nsRooms)
+        console.log(nsRooms);
         let roomList = document.querySelector('.room-list');
-        roomList.innerHTML = ""
+        roomList.innerHTML = "";
         nsRooms.forEach((room) => {
             let glyph;
             if (room.isPrivate) {
-                glyph = 'lock'
+                glyph = 'lock';
             } else {
-                glyph = 'globe'
+                glyph = 'globe';
             }
-            roomList.innerHTML += `<li class="room"><span class="glyphicon glyphicon-${glyph}"></span><a href="/rooms/${room.name}">${room.name}</a></li>`
+            roomList.innerHTML += `<li class="room"><span class="glyphicon glyphicon-${glyph}"></span><a href="/rooms/${room.name}">${room.name}</a></li>`;
         })
     })
 
     // socket.emit('joinRoom', window.location.pathname.split("/").pop())
 
-    document.querySelector('.message-form').addEventListener('submit', formSubmission)
+    document.querySelector('.message-form').addEventListener('submit', formSubmission);
 
     nsSocket.on('messageToClients', (msg) => {
-        const newMsg = buildHTML(msg)
-        document.querySelector('#messages').innerHTML += newMsg
+        const newMsg = buildHTML(msg);
+        document.querySelector('#messages').innerHTML += newMsg;
     })
 }
 
@@ -55,6 +55,6 @@ function buildHTML(msg) {
             <div class="message-text">${msg.text}</div>
         </div>
     </li>
-    `
+    `;
     return newHTML;
 }
