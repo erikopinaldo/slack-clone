@@ -4,7 +4,7 @@ const User = require("../models/Users");
 
 exports.getLogin = (req, res) => {
   if (req.user) {
-    return res.redirect("/rooms/naruto");
+    return res.redirect("/rooms/general");
   }
   res.render("login", {
     title: "Login",
@@ -39,7 +39,7 @@ exports.postLogin = (req, res, next) => {
         return next(err);
       }
       req.flash("success", { msg: "Success! You are logged in." });
-      res.redirect(req.session.returnTo || "/rooms/naruto");
+      res.redirect(req.session.returnTo || "/rooms/general");
     });
   })(req, res, next);
 };
@@ -58,7 +58,7 @@ exports.logout = (req, res) => {
 
 exports.getSignup = (req, res) => {
   if (req.user) {
-    return res.redirect("/rooms/naruto");
+    return res.redirect("/rooms/general");
   }
   res.render("signup", {
     title: "Create Account",
@@ -110,7 +110,7 @@ exports.postSignup = (req, res, next) => {
           if (err) {
             return next(err);
           }
-          res.redirect("/rooms/naruto");
+          res.redirect("/rooms/general");
         });
       });
     }
