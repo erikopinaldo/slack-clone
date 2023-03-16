@@ -15,7 +15,8 @@ module.exports = {
       
       res.render("rooms", { messageHistory: messageHistory, currentRoom: roomName });
 
-    } catch (err) {
+    }
+    catch (err) {
       console.log(err);
     }
   },
