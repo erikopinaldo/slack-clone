@@ -21,7 +21,7 @@ We initialize an instance of `socket.io` by passing it our Express server object
 
 On the frontend, we have our client JS script make a connection to our server via `socket.io`. We can now say that a socket is connected to our server. 
 
-#### Namespace and room hierarchy
+#### 1. Namespace and room hierarchy
 
 `socket.io` includes two frameworks for organization that I am using in my project: namespaces and rooms.
 
@@ -31,7 +31,7 @@ Namespaces contain a collection of rooms and are distinct from other namespaces.
 
 Slack and Discord use this same hierarchy to organize their conversations. 
 
-#### Routing users to different namespaces and rooms
+#### 2. Routing users to different namespaces and rooms
 
 _[Backend begins here]_
 
@@ -49,7 +49,7 @@ The server is set up with Express routing for these page visits and captures the
 
 The server pulls all of the message history for the requested room from our database and uses it to populate the eventual `.ejs` file that is served to the client.
 
-#### Sending messages
+#### 3. Sending messages
 
 _[Frontend begins here]_
 
