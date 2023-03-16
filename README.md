@@ -92,7 +92,7 @@ The other key tool that is helping serve customized views is authorization.
 ## Opportunities
 
 * Rewrite client-side code using React
-* Use unique user IDs in both the client- and server-side operations (e.g. when sending messages) 
+* Use unique user/room IDs in both the client- and server-side operations (e.g. when sending messages) 
 * Encapuslate socket event handlers in custom API methods 
 * Track and show "active/online" users in the client
 * Keyword search for messages in the client
