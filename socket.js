@@ -6,7 +6,7 @@ const handleChatConnection = async (socket) => {
 
     let nsRooms = await models.Rooms.find({ namespace: socket.nsp.name.slice(1) }).exec();
 
-    socket.emit('nsRoomLoad', nsRooms)
+    socket.emit('nsRoomLoad', nsRooms);
 
     // Handle joining a room within the chat namespace
     socket.on('joinRoom', async (roomName) => {
@@ -37,19 +37,20 @@ const handleChatConnection = async (socket) => {
             user: username,
             room: roomName,
             avatar: 'https://via.placeholder.com/30'
-        }
+        };
 
         try {
-            console.log(fullMsg)
-            console.log('user: ' + fullMsg.user)
-            models.Messages.create(fullMsg)
-                .then(console.log('Message has been added!'))
-        } catch (err) {
-            console.log(err)
+            console.log(fullMsg);
+            console.log('user: ' + fullMsg.user);
+            await models.Messages.create(fullMsg);
+            console.log('Message has been added!');
         }
+        catch (err) {
+            console.log(err);
+        }
+
         socket.to(roomName).emit('messageToClients', fullMsg);
         socket.emit('messageToClients', fullMsg);
-
     });
 
     module.exports = {

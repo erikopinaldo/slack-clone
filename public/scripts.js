@@ -1,7 +1,7 @@
 // const username = prompt("what is your name? ") // prompt the user to enter his username
 const socket = io('http://localhost:8080');
 
-console.log('connected!')
+console.log('connected!');
 
 let nsSocket = ""; // we setup an initial global variable
 
@@ -11,19 +11,19 @@ socket.on('nsList', (nsData) => {
     let namespacesDiv = document.querySelector('.namespaces');
     namespacesDiv.innerHTML = "";
     nsData.forEach((ns) => {
-        namespacesDiv.innerHTML += `<div class="namespace" ns=${ns.endpoint} ><img src="${ns.img}" /></div>`
+        namespacesDiv.innerHTML += `<div class="namespace" ns=${ns.endpoint} ><img src="${ns.img}" /></div>`;
     })
     // Add clickListener to each Namespace (NS)
-    console.log(document.getElementsByClassName('namespace'))
+    console.log(document.getElementsByClassName('namespace'));
     Array.from(document.getElementsByClassName('namespace')).forEach(elem => {
 
         elem.addEventListener('click', e => {
             const nsEndpoint = elem.getAttribute('ns');
-            joinNs(nsEndpoint)
-        })
+            joinNs(nsEndpoint);
+        });
     })
-    joinNs('/anime')
+    joinNs('/anime');
 })
 
-const messagesUl = document.querySelector("#messages")
-messagesUl.scrollTo(0, messagesUl.scrollHeight)
+const messagesUl = document.querySelector("#messages");
+messagesUl.scrollTo(0, messagesUl.scrollHeight);
