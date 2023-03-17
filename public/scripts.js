@@ -1,5 +1,5 @@
 // const username = prompt("what is your name? ") // prompt the user to enter his username
-const socket = io('http://localhost:8080');
+const socket = io('https://slack-clone.fly.dev');
 
 console.log('connected!');
 
