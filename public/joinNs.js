@@ -7,7 +7,7 @@ function joinNs(endpoint) {
         document.querySelector("#user-input").removeEventListener('submit', formSubmission);
     }
 
-    nsSocket = io(`https://slack-clone.fly.dev${endpoint}`)
+    nsSocket = io(window.location.origin + endpoint)
     
     nsSocket.on('nsRoomLoad', (nsRooms) => {
         console.log(nsRooms);
