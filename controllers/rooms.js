@@ -3,7 +3,7 @@ const models = require("../models");
 module.exports = {
   getRooms: async (req, res) => { 
     try {
-      let namespace = req.io.of('/test');
+      let namespace = req.io.of('/anime');
       let roomName = req.params.name.toLowerCase();
       namespace.on('connection', (socket) => {
         socket.leave([...socket.rooms][1]);

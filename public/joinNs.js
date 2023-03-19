@@ -31,6 +31,9 @@ function joinNs(endpoint) {
     nsSocket.on('messageToClients', (msg) => {
         const newMsg = buildHTML(msg);
         document.querySelector('#messages').innerHTML += newMsg;
+        const messagesUl = document.querySelector("#messages");
+        console.log(messagesUl.scrollHeight)
+        messagesUl.scrollTo(0, messagesUl.scrollHeight);
     })
 }
 

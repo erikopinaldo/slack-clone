@@ -18,7 +18,7 @@ const NamespaceSchema = new mongoose.Schema({
     },
     rooms: {
         type: [String],
-        default: ['general']
+        default: ['naruto']
     },
 })
 
