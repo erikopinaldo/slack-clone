@@ -20,7 +20,7 @@ function joinNs(endpoint) {
             } else {
                 glyph = 'globe';
             }
-            roomList.innerHTML += `<li class="room"><span class="glyphicon glyphicon-${glyph}"></span><a href="/rooms/${room.name}">${room.name}</a></li>`;
+            roomList.innerHTML += `<li class="room"><span class="glyphicon glyphicon-${glyph}"></span><a href="/chat${endpoint}/${room.name}">${room.name}</a></li>`;
         })
     })
 
