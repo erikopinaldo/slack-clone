@@ -11,7 +11,7 @@ socket.on('nsList', (nsData) => {
     let namespacesDiv = document.querySelector('.namespaces');
     namespacesDiv.innerHTML = "";
     nsData.forEach((ns) => {
-        namespacesDiv.innerHTML += `<div class="namespace" ns=${ns.endpoint} ><img src="${ns.img}" /></div>`;
+        namespacesDiv.innerHTML += `<div class="namespace" ns=${ns.endpoint} ><a href="/chat${ns.endpoint}"><img src="${ns.img}" /></a></div>`;
     })
     // Add clickListener to each Namespace (NS)
     console.log(document.getElementsByClassName('namespace'));
