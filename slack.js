@@ -80,7 +80,7 @@ models.Namespaces.find()
 
             // build an array of namespaces with img and endpoint to send back
             // with this namespace map, every connection gets the same list of namespaces 
-            let nsData = namespaces.map((ns) => {
+            let nsData = namespaces.filter((ns) => ns.endpoint === '/test').map((ns) => {
                 return {
                     img: ns.img,
                     endpoint: ns.endpoint
