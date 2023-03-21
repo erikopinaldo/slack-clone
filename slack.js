@@ -65,7 +65,7 @@ app.use(function (req, res, next) {
 
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
-app.use("/rooms", roomsRoutes);
+app.use("/chat", roomsRoutes);
 
 // loop through each ns and listen for a connection
 models.Namespaces.find()
