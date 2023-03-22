@@ -2,12 +2,23 @@ const models = require("../models");
 
 module.exports = {
   getRooms: async (req, res) => {
+    let ns = req.params.namespace
     if (!req.params.room) {
-      res.redirect('/chat/anime/naruto')
+      try {
+        let activeNamespace = await models.Namespaces.find({ name: ns }).exec();
+        let defaultRoom = activeNamespace[0].toObject().defaultRoom;
+
+        console.log(defaultRoom);
+
+        res.redirect(`/chat/${ns}/${defaultRoom}`);
+      }
+      catch(err) {
+        console.log(err);
+      }
     }
     else {
       try {
-        let namespace = req.io.of('/' + req.params.namespace);
+        let namespace = req.io.of('/' + ns);
         let roomName = req.params.room.toLowerCase();
         namespace.on('connection', (socket) => {
           socket.leave([...socket.rooms][1]);
@@ -25,5 +36,5 @@ module.exports = {
         console.log(err);
       }
     }
-  },
+  }, 
 };
