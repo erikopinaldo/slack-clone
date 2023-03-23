@@ -22,7 +22,11 @@ socket.on('nsList', (nsData) => {
             joinNs(nsEndpoint);
         });
     })
-    joinNs('/anime');
+
+    let nsToJoin = window.location.pathname.split('/')[2]
+    console.log(nsToJoin)
+
+    joinNs(`/${nsToJoin}`);
 })
 
 const messagesUl = document.querySelector("#messages");
