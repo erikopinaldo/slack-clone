@@ -86,7 +86,11 @@ models.Namespaces.find()
             });
             // We need to use socket, not IO this is
             // because we want it to go to just this client
-            socket.emit('nsList', nsData); // send nsData back to the client  
+            socket.emit('nsList', nsData); // send nsData back to the client
+            
+            socket.on('disconnect', function () {
+                console.log('user disconnected');
+            });
         })
 
         //Set up connection handler for each namespace
