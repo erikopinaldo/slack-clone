@@ -35,18 +35,18 @@ function joinRoom(roomName) {
         })
     })
 }
-function buildHTML(msg) {
-    const convertedDate = new Date(msg.time).toLocaleString();
-    const newHTML = `
-    <li>
-        <div class="user-image">
-            <img src="${msg.avatar}" />
-        </div>
-        <div class="user-message">
-            <div class="user-name-time">${msg.user} <span>${convertedDate}</span></div>
-            <div class="message-text">${msg.text}</div>
-        </div>
-    </li>
-    `
-    return newHTML;
-}
+// function buildHTML(msg) {
+//     const convertedDate = new Date(msg.time).toLocaleString();
+//     const newHTML = `
+//     <li>
+//         <div class="user-image">
+//             <img src="https://res.cloudinary.com/dqonprzjw/image/upload/c_thumb,g_face,h_30,w_30/slack-clone/${msg.user}" />
+//         </div>
+//         <div class="user-message">
+//             <div class="user-name-time">${msg.user} <span>${convertedDate}</span></div>
+//             <div class="message-text">${msg.text}</div>
+//         </div>
+//     </li>
+//     `
+//     return newHTML;
+// }
