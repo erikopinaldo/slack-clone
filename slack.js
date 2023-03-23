@@ -71,8 +71,6 @@ app.use("/chat", roomsRoutes);
 models.Namespaces.find()
     .exec()
     .then((namespaces) => {
-        console.log(namespaces);
-
         // note that io.on === io.of('/').on ;)
         io.on('connection', (socket) => {
 
@@ -80,7 +78,7 @@ models.Namespaces.find()
 
             // build an array of namespaces with img and endpoint to send back
             // with this namespace map, every connection gets the same list of namespaces 
-            let nsData = namespaces.filter((ns) => ns.endpoint !== '/test').map((ns) => {
+            let nsData = namespaces.filter((ns) => ns.name === process.env.DEFAULT_NAMESPACE).map((ns) => {
                 return {
                     img: ns.img,
                     endpoint: ns.endpoint
@@ -92,7 +90,7 @@ models.Namespaces.find()
         })
 
         //Set up connection handler for each namespace
-        namespaces.forEach((namespace) => {
+        namespaces.filter((ns) => ns.name === process.env.DEFAULT_NAMESPACE).forEach((namespace) => {
             let nsp = io.of(namespace.endpoint);
             nsp.on('connection', (socket) => {
                 handleChatConnection(socket, nsp, namespace);
