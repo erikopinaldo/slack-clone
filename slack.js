@@ -65,14 +65,12 @@ app.use(function (req, res, next) {
 
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
-app.use("/rooms", roomsRoutes);
+app.use("/chat", roomsRoutes);
 
 // loop through each ns and listen for a connection
 models.Namespaces.find()
     .exec()
     .then((namespaces) => {
-        console.log(namespaces);
-
         // note that io.on === io.of('/').on ;)
         io.on('connection', (socket) => {
 
@@ -80,7 +78,7 @@ models.Namespaces.find()
 
             // build an array of namespaces with img and endpoint to send back
             // with this namespace map, every connection gets the same list of namespaces 
-            let nsData = namespaces.filter((ns) => ns.endpoint === '/test').map((ns) => {
+            let nsData = namespaces.filter((ns) => ns.name === process.env.DEFAULT_NAMESPACE).map((ns) => {
                 return {
                     img: ns.img,
                     endpoint: ns.endpoint
@@ -88,11 +86,15 @@ models.Namespaces.find()
             });
             // We need to use socket, not IO this is
             // because we want it to go to just this client
-            socket.emit('nsList', nsData); // send nsData back to the client  
+            socket.emit('nsList', nsData); // send nsData back to the client
+            
+            socket.on('disconnect', function () {
+                console.log('user disconnected');
+            });
         })
 
         //Set up connection handler for each namespace
-        namespaces.forEach((namespace) => {
+        namespaces.filter((ns) => ns.name === process.env.DEFAULT_NAMESPACE).forEach((namespace) => {
             let nsp = io.of(namespace.endpoint);
             nsp.on('connection', (socket) => {
                 handleChatConnection(socket, nsp, namespace);
