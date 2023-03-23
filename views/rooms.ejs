@@ -29,7 +29,7 @@
                 <% for(var i=0; i<messageHistory.length; i++) {%>
                     <li>
                         <div class="user-image">
-                            <img src="<% messageHistory[i].avatar %>" />
+                            <img src="https://res.cloudinary.com/dqonprzjw/image/upload/c_thumb,g_face,h_30,w_30/slack-clone/<%= messageHistory[i].user %>"  />
                         </div>
                         <div class="user-message">
                             <div class="user-name-time"><%= messageHistory[i].user%> <span><%= new Date(messageHistory[i].time).toLocaleString() %></span></div>
