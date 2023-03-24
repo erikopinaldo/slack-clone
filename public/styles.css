@@ -84,6 +84,11 @@ body {
     padding-left: 30px;
 }
 
+.profile {
+    margin-top: 5px;
+    margin-right: 20px;
+}
+
 .message-form {
     margin: 0px;
     margin-bottom: 10px;
