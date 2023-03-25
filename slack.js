@@ -72,7 +72,7 @@ models.Namespaces.find()
     .exec()
     .then((namespaces) => {
         // note that io.on === io.of('/').on ;)
-        io.on('connection', (socket) => {
+        io.on('connection', async (socket) => {
 
             console.log(socket.request.session);
 
@@ -87,6 +87,11 @@ models.Namespaces.find()
             // We need to use socket, not IO this is
             // because we want it to go to just this client
             socket.emit('nsList', nsData); // send nsData back to the client
+
+            let user = await models.Users.findById(socket.request.session.passport.user).select('userName');
+            let username = user.userName;
+
+            socket.emit('currentUser', username)
             
             socket.on('disconnect', function () {
                 console.log('user disconnected');
