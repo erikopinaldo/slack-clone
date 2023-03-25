@@ -29,14 +29,21 @@ socket.on('nsList', (nsData) => {
     joinNs(`/${nsToJoin}`);
 })
 
+socket.on('currentUser', (username) => {
+    localStorage.setItem('user', username)
+})
+
 const messagesUl = document.querySelector("#messages");
 messagesUl.scrollTo(0, messagesUl.scrollHeight);
+
+let username = localStorage.getItem('user')
+console.log(username)
 
 let myWidget = cloudinary.createUploadWidget({
     cloudName: 'dqonprzjw',
     uploadPreset: 'slack-clone',
     sources: ['local'],
-    publicId: 'test2'
+    publicId: username
 }, (error, result) => {
     if (!error && result && result.event === "success") {
         console.log('Done! Here is the image info: ', result.info);
