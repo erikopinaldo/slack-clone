@@ -50,7 +50,7 @@ function buildHTML(msg) {
     const newHTML = `
     <li>
         <div class="user-image">
-            <img src="https://res.cloudinary.com/dqonprzjw/image/upload/c_thumb,g_face,h_30,w_30/slack-clone/${msg.user}" />
+            <img src="https://res.cloudinary.com/dqonprzjw/image/upload/h_30,w_30/slack-clone/${msg.user}" />
         </div>
         <div class="user-message">
             <div class="user-name-time">${msg.user} <span>${convertedDate}</span></div>
