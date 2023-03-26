@@ -30,7 +30,6 @@ socket.on('nsList', (nsData) => {
 })
 
 socket.on('currentUser', (username) => {
-    localStorage.setItem('user', username)
     let user = username
 
     let myWidget = cloudinary.createUploadWidget({
