@@ -18,7 +18,7 @@
                     </span>
                 </div>
                 <div id="profile" class="col-sm pull-right profile">
-                    <img src="https://res.cloudinary.com/dqonprzjw/image/upload/c_thumb,g_face,h_30,w_30/slack-clone/test"
+                    <img src="https://res.cloudinary.com/dqonprzjw/image/upload/h_30,w_30/slack-clone/<%= currentUser %>"
                         class="rounded">
                 </div>
                 <div class="col-sm-3 search pull-right">
@@ -37,7 +37,7 @@
                 <% for(var i=0; i<messageHistory.length; i++) {%>
                     <li>
                         <div class="user-image">
-                            <img src="https://res.cloudinary.com/dqonprzjw/image/upload/c_thumb,g_face,h_30,w_30/slack-clone/<%= messageHistory[i].user %>"  />
+                            <img src="https://res.cloudinary.com/dqonprzjw/image/upload/h_30,w_30/slack-clone/<%= messageHistory[i].user %>"  />
                         </div>
                         <div class="user-message">
                             <div class="user-name-time"><%= messageHistory[i].user%> <span><%= new Date(messageHistory[i].time).toLocaleString() %></span></div>
