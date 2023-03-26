@@ -31,26 +31,24 @@ socket.on('nsList', (nsData) => {
 
 socket.on('currentUser', (username) => {
     localStorage.setItem('user', username)
+    let user = username
+
+    let myWidget = cloudinary.createUploadWidget({
+        cloudName: 'dqonprzjw',
+        uploadPreset: 'slack-clone',
+        sources: ['local'],
+        publicId: user
+    }, (error, result) => {
+        if (!error && result && result.event === "success") {
+            console.log('Done! Here is the image info: ', result.info);
+        }
+    }
+    )
+
+    document.getElementById("profile").addEventListener("click", function () {
+        myWidget.open();
+    }, false);
 })
 
 const messagesUl = document.querySelector("#messages");
 messagesUl.scrollTo(0, messagesUl.scrollHeight);
-
-let username = localStorage.getItem('user')
-console.log(username)
-
-let myWidget = cloudinary.createUploadWidget({
-    cloudName: 'dqonprzjw',
-    uploadPreset: 'slack-clone',
-    sources: ['local'],
-    publicId: username
-}, (error, result) => {
-    if (!error && result && result.event === "success") {
-        console.log('Done! Here is the image info: ', result.info);
-    }
-}
-)
-
-document.getElementById("profile").addEventListener("click", function () {
-    myWidget.open();
-}, false);
