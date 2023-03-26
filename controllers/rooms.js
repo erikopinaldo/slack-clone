@@ -2,6 +2,7 @@ const models = require("../models");
 
 module.exports = {
   getRooms: async (req, res) => {
+    let currentUser = req.user.userName
     let ns = req.params.namespace
     if (!req.params.room) {
       try {
@@ -29,7 +30,7 @@ module.exports = {
         let messageHistory = await models.Messages.find({ room: roomName }).exec();
         console.log('visiting: ' + roomName);
 
-        res.render("rooms", { messageHistory: messageHistory, currentRoom: roomName });
+        res.render("rooms", { messageHistory: messageHistory, currentRoom: roomName, currentUser: currentUser });
 
       }
       catch (err) {
