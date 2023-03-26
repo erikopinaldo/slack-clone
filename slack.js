@@ -15,7 +15,9 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const mainRoutes = require("./routes/main");
 const roomsRoutes = require("./routes/rooms");
+const signedUploadWidget = require("./routes/signedUploadWidget");
 const connectDB = require('./config/database');
+const { signuploadwidget } = require('./modules/signedUploadWidget');
 
 // Passport config
 require("./config/passport")(passport);
@@ -66,6 +68,7 @@ app.use(function (req, res, next) {
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
 app.use("/chat", roomsRoutes);
+app.use("/api/signedUploadWidget", signedUploadWidget);
 
 // loop through each ns and listen for a connection
 models.Namespaces.find()
